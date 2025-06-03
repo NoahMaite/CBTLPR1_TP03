@@ -1,0 +1,8 @@
+public class RelogioApp {
+    public static void main(String[] args) {
+        Hora relogio = new Hora();
+        System.out.println("Formato 24h: " + relogio.getFormato24h());
+        System.out.println("Formato 12h: " + relogio.getFormato12h());
+        System.out.println("Total em segundos: " + relogio.totalSegundos());
+    }
+}
