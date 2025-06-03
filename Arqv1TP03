@@ -1,0 +1,104 @@
+import java.util.Scanner;
+
+public class Hora {
+    private int horas;
+    private int minutos;
+    private int segundos;
+
+    public Hora() {
+        Scanner teclado = new Scanner(System.in);
+        this.horas = entradaValida(teclado, "horas", 0, 23);
+        this.minutos = entradaValida(teclado, "minutos", 0, 59);
+        this.segundos = entradaValida(teclado, "segundos", 0, 59);
+    }
+
+    public Hora(int h, int m, int s) {
+        definirHoras(h);
+        definirMinutos(m);
+        definirSegundos(s);
+    }
+
+    public void definirHoras(int h) {
+        if (h >= 0 && h <= 23) {
+            this.horas = h;
+        } else {
+            throw new IllegalArgumentException("Hora fora do intervalo permitido.");
+        }
+    }
+
+    public void definirMinutos(int m) {
+        if (m >= 0 && m <= 59) {
+            this.minutos = m;
+        } else {
+            throw new IllegalArgumentException("Minuto inválido.");
+        }
+    }
+
+    public void definirSegundos(int s) {
+        if (s >= 0 && s <= 59) {
+            this.segundos = s;
+        } else {
+            throw new IllegalArgumentException("Segundo inválido.");
+        }
+    }
+
+    public void definirHoras() {
+        this.horas = entradaValida(new Scanner(System.in), "horas", 0, 23);
+    }
+
+    public void definirMinutos() {
+        this.minutos = entradaValida(new Scanner(System.in), "minutos", 0, 59);
+    }
+
+    public void definirSegundos() {
+        this.segundos = entradaValida(new Scanner(System.in), "segundos", 0, 59);
+    }
+
+    public int obterHoras() {
+        return horas;
+    }
+
+    public int obterMinutos() {
+        return minutos;
+    }
+
+    public int obterSegundos() {
+        return segundos;
+    }
+
+    public String getFormato24h() {
+        return String.format("%02d:%02d:%02d", horas, minutos, segundos);
+    }
+
+    public String getFormato12h() {
+        int h12 = (horas == 0 || horas == 12) ? 12 : horas % 12;
+        String periodo = (horas < 12) ? "AM" : "PM";
+        return String.format("%02d:%02d:%02d %s", h12, minutos, segundos, periodo);
+    }
+
+    public int totalSegundos() {
+        return (horas * 3600) + (minutos * 60) + segundos;
+    }
+
+    private int entradaValida(Scanner leitor, String campo, int minimo, int maximo) {
+        int valor = -1;
+        boolean valido = false;
+
+        while (!valido) {
+            System.out.print("Digite " + campo + " (" + minimo + "-" + maximo + "): ");
+            if (leitor.hasNextInt()) {
+                valor = leitor.nextInt();
+                if (valor >= minimo && valor <= maximo) {
+                    valido = true;
+                } else {
+                    System.out.println("Valor fora do intervalo permitido.");
+                }
+            } else {
+                System.out.println("Entrada inválida. Informe apenas números inteiros.");
+                leitor.next(); // descarta entrada inválida
+            }
+        }
+
+        return valor;
+    }
+}
